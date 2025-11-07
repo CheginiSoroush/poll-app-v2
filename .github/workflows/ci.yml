@@ -23,11 +23,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+          
       # --- مرحله جدید ۲: ساختن و پوش کردن ایمیج ---
       - name: Build and push the Docker image
         uses: docker/build-push-action@v5
         with:
-            
+
           context: . # بهش می‌گه Dockerfile در همین پوشه است
           push: true # می‌گه که بعد از ساختن، پوش کن
           tags: <cheginisoroush>/poll-app-v2:latest # ایمیج رو با این اسم تگ کن
