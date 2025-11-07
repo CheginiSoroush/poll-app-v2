@@ -29,4 +29,4 @@ jobs:
         with:
           context: . # بهش می‌گه Dockerfile در همین پوشه است
           push: true # می‌گه که بعد از ساختن، پوش کن
-          tags: <your-dockerhub-username>/poll-app-v2:latest # ایمیج رو با این اسم تگ کن
+          tags: <cheginisoroush>/poll-app-v2:latest # ایمیج رو با این اسم تگ کن
