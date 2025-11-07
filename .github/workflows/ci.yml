@@ -1,25 +1,32 @@
-# File: .github/workflows/ci.yml
+name: CI/CD - Build and Push Docker Image
 
-# ۱. اسم Workflow
-name: CI - Build Docker Image
-
-# ۲. چه زمانی اجرا شود؟
 on:
-  push: # هر بار که کدی پوش شد
+  push:
     branches:
-      - main # فقط روی شاخه main
-  pull_request: # و هر بار که یه پول رکوئست باز شد
+      - main
+  pull_request:
     branches:
       - main
 
-# ۳. چه کارهایی باید انجام شود؟
 jobs:
-  build: # اسم این کار رو میذاریم build
-    runs-on: ubuntu-latest # روی یه ماشین مجازی اوبونتو اجراش کن
+  build-and-push: # اسم job رو بهتر کردم
+    runs-on: ubuntu-latest
 
-    steps: # مراحل این کار
+    steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # اکشن رسمی برای دانلود کردن کد پروژه
+        uses: actions/checkout@v4
 
-      - name: Build the Docker image
-        run: docker build -t poll-app-v2 . # همون دستوری که خودت اجرا کردی
+      # --- مرحله جدید ۱: لاگین به داکر هاب ---
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # --- مرحله جدید ۲: ساختن و پوش کردن ایمیج ---
+      - name: Build and push the Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # بهش می‌گه Dockerfile در همین پوشه است
+          push: true # می‌گه که بعد از ساختن، پوش کن
+          tags: <your-dockerhub-username>/poll-app-v2:latest # ایمیج رو با این اسم تگ کن
