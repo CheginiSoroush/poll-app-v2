@@ -1,0 +1,25 @@
+# File: .github/workflows/ci.yml
+
+# ۱. اسم Workflow
+name: CI - Build Docker Image
+
+# ۲. چه زمانی اجرا شود؟
+on:
+  push: # هر بار که کدی پوش شد
+    branches:
+      - main # فقط روی شاخه main
+  pull_request: # و هر بار که یه پول رکوئست باز شد
+    branches:
+      - main
+
+# ۳. چه کارهایی باید انجام شود؟
+jobs:
+  build: # اسم این کار رو میذاریم build
+    runs-on: ubuntu-latest # روی یه ماشین مجازی اوبونتو اجراش کن
+
+    steps: # مراحل این کار
+      - name: Checkout code
+        uses: actions/checkout@v4 # اکشن رسمی برای دانلود کردن کد پروژه
+
+      - name: Build the Docker image
+        run: docker build -t poll-app-v2 . # همون دستوری که خودت اجرا کردی
